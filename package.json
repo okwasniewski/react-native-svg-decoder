@@ -154,6 +154,20 @@
     "jsSrcsDir": "src",
     "android": {
       "javaPackageName": "com.svgdecoder"
+    },
+    "ios": {
+      "modulesConformingToProtocol": {
+        "RCTImageDataDecoder": [
+          "SvgDecoder"
+        ]
+      },
+      "modules": {
+        "SvgDecoder": {
+          "conformsToProtocol": [
+            "RCTImageDataDecoder"
+          ]
+        }
+      }
     }
   },
   "create-react-native-library": {
