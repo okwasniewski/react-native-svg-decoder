@@ -1,7 +1,5 @@
 import { TurboModuleRegistry, type TurboModule } from 'react-native';
 
-export interface Spec extends TurboModule {
-  multiply(a: number, b: number): number;
-}
+export interface Spec extends TurboModule {}
 
 export default TurboModuleRegistry.getEnforcing<Spec>('SvgDecoder');

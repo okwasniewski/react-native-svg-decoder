@@ -1,8 +1,14 @@
 #import "SvgDecoder.h"
+#import "CoreSVG.h"
 
+#if __has_include("SvgDecoder/SvgDecoder-Swift.h")
+#import "SvgDecoder/SvgDecoder-Swift.h"
+#else
 #import "SvgDecoder-Swift.h"
+#endif
 
 @implementation SvgDecoder
+
 RCT_EXPORT_MODULE()
 
 - (BOOL)canDecodeImageData:(NSData *)imageData
@@ -34,69 +40,7 @@ RCT_EXPORT_MODULE()
                                         resizeMode:(RCTResizeMode)resizeMode
                                  completionHandler:(RCTImageLoaderCompletionBlock)completionHandler
 {
-  // Create SVG instance from the image data
-  SVG *svg = [[SVG alloc] initWithData:imageData ];
-  
-  if (!svg) {
-    // If SVG creation failed, call completion handler with error
-    NSError *error = [NSError errorWithDomain:@"SVGDecoderErrorDomain"
-                                         code:1
-                                     userInfo:@{NSLocalizedDescriptionKey: @"Failed to create SVG from data"}];
-    completionHandler(error, nil);
-    return ^{
-      // Empty cancellation block since operation completed immediately
-    };
-  }
-  
-  // Get the natural size of the SVG
-  CGSize naturalSize = svg.size;
-  
-  // Determine target size based on provided size parameter
-  CGSize targetSize = size;
-  if (CGSizeEqualToSize(targetSize, CGSizeZero)) {
-    // If no size specified, use natural size
-    targetSize = naturalSize;
-  }
-  
-  // Apply scale factor
-  if (scale > 0) {
-    targetSize.width *= scale;
-    targetSize.height *= scale;
-  }
-  
-  // Handle resize mode (you may need to adjust this based on your RCTResizeMode enum values)
-  switch (resizeMode) {
-    case RCTResizeModeContain: {
-      // Scale to fit within bounds while maintaining aspect ratio
-      CGFloat scaleX = targetSize.width / naturalSize.width;
-      CGFloat scaleY = targetSize.height / naturalSize.height;
-      CGFloat finalScale = MIN(scaleX, scaleY);
-      targetSize.width = naturalSize.width * finalScale;
-      targetSize.height = naturalSize.height * finalScale;
-      break;
-    }
-    case RCTResizeModeCover: {
-      // Scale to fill bounds while maintaining aspect ratio (may crop)
-      CGFloat scaleX = targetSize.width / naturalSize.width;
-      CGFloat scaleY = targetSize.height / naturalSize.height;
-      CGFloat finalScale = MAX(scaleX, scaleY);
-      targetSize.width = naturalSize.width * finalScale;
-      targetSize.height = naturalSize.height * finalScale;
-      break;
-    }
-    case RCTResizeModeStretch:
-      // Use targetSize as-is (will stretch to fit)
-      break;
-    case RCTResizeModeCenter:
-      // Use natural size, ignore target size
-      targetSize = naturalSize;
-      break;
-    default:
-      break;
-  }
-  
-  // Generate the image
-  UIImage *image = [svg imageWithSize:targetSize];
+  UIImage *image = [[CoreSVGWrapper alloc] imageFromSVGData:imageData targetSize:size];
   
   if (image) {
     // Success - call completion handler with the image
