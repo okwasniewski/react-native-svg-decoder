@@ -17,6 +17,12 @@ npm install react-native-svg-decoder
 
 Just install the package and use the built-in Image component as usual.
 
+### Library Authors
+
+You can integrate this package as a dependency to enable SVG functionality in your library.
+
+If your native code already utilizes `RCTImageLoader` for image loading, SVG images will be supported automatically upon installing this package - no additional configuration required.
+
 ## Contributing
 
 - [Development workflow](CONTRIBUTING.md#development-workflow)
