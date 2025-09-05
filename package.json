@@ -15,7 +15,6 @@
   "files": [
     "src",
     "lib",
-    "android",
     "ios",
     "cpp",
     "*.podspec",
@@ -152,9 +151,6 @@
     "name": "SvgDecoderSpec",
     "type": "modules",
     "jsSrcsDir": "src",
-    "android": {
-      "javaPackageName": "com.svgdecoder"
-    },
     "ios": {
       "modulesConformingToProtocol": {
         "RCTImageDataDecoder": [
