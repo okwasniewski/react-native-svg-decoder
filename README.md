@@ -1,9 +1,11 @@
-# react-native-svg-decoder
+# react-native-svg-decoder 🔧
 
-> [!NOTE]
+> [!WARNING]
 > This library is iOS only.
 
-Extend built-in Image component with SVG capabilities
+Extends built-in Image component with SVG capabilities. It uses CoreSVG to render SVG images.
+
+The implementation was heavily inspired by [SDWebImageSVGCoder](https://github.com/SDWebImage/SDWebImageSVGCoder). It uses the same approach to mangle private Apple classes to add SVG support.
 
 ## Installation
 
